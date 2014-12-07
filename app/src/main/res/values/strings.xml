@@ -2,7 +2,19 @@
 <resources>
 
     <string name="app_name">Controlador de Gastos</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Controlador de Gastos</string>
+    <string name="novoGasto">Novo gasto</string>
+    <string name="valorGasto">Insira o valor gasto</string>
+    <string name="dataGasto">Insira a data que foi gasto</string>
+    <string name="adicionarGasto">Adicionar Gasto</string>
+    <string name="AdicionarGasto">Adicionar Gasto</string>
+    <string name="listaDeGastos">Lista de Gastos</string>
+    <string-array name="categorias">
+        <item>Alimentação</item>
+        <item>Lazer</item>
+        <item>Mensalidade</item>
+        <item>Roupas</item>
+        <item>Outros</item>
+    </string-array>
 
 </resources>
