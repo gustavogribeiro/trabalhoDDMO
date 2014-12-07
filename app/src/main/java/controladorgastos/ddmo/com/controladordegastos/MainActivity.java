@@ -1,5 +1,7 @@
 package controladorgastos.ddmo.com.controladordegastos;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -7,16 +9,23 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
     EditText valorGasto, dataGasto;
     private Spinner categorias;
+    List<ListaGastos> listaGastos = new ArrayList<ListaGastos>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +54,8 @@ public class MainActivity extends ActionBarActivity {
         salvarGasto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Despesa salva com sucesso!", Toast.LENGTH_SHORT);
+                addGasto(valorGasto.getText().toString(), dataGasto.getText().toString(), categorias.getSelectedItem().toString());
+                Toast.makeText(getApplicationContext(), "Gasto de R$" + valorGasto.getText().toString()+" foi adicionado!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -55,6 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
             }
 
+            @TargetApi(Build.VERSION_CODES.GINGERBREAD)
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                 salvarGasto.setEnabled(!valorGasto.getText().toString().trim().isEmpty());
@@ -65,6 +76,33 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
+
+    }
+
+    private void addGasto(String valor, String data, String categoria){
+        listaGastos.add(new ListaGastos(valor, data, categoria));
+    }
+
+    private class ListaGastosAdapter extends ArrayAdapter<ListaGastos>{
+        public ListaGastosAdapter(){
+            super(MainActivity.this, R.layout.listview_gastos, listaGastos);
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent){
+            if (view == null)
+                view = getLayoutInflater().inflate(R.layout.listview_gastos, parent, false);
+
+            ListaGastos gastoAtual = listaGastos.get(position);
+            TextView valor = (TextView) view.findViewById(R.id.despesa);
+            valor.setText(gastoAtual.get_valor());
+            TextView data = (TextView) view.findViewById(R.id.despesaData);
+            data.setText(gastoAtual.get_data());
+            TextView categoria = (TextView) view.findViewById(R.id.categoria);
+            categoria.setText(gastoAtual.get_categoria());
+
+            return view;
+        }
     }
 
 
